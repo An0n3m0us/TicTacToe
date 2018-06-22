@@ -7,14 +7,16 @@ local circleAnim = math.rad(-90)
 
 function love.load()
    bgboard = love.graphics.newImage("bgboard.png")
-   bwidth = bgboard:getWidth()
-   bheight = bgboard:getHeight()
+   bgwidth = bgboard:getWidth()
+   bgheight = bgboard:getHeight()
 end
-
 
 function menu()
     love.graphics.setColor(0, 0, 0)
     love.graphics.printf("TIC TAC TOE", 0, 100, width, 'center')
+
+    love.graphics.setColor(1, 1, 1, 0.1)
+    love.graphics.draw(bgboard, width/2, 350, math.rad(90), 1, 1, bwidth / 2, bheight / 2)
 end
 
 function cross(x, y)
@@ -55,9 +57,6 @@ end
 
 function love.draw()
     love.graphics.setBackgroundColor(1, 1, 1)
-
-    love.graphics.setColor(1, 1, 1, 0.1)
-    love.graphics.draw(bgboard, width/2, 350, math.rad(90), 1, 1, bwidth / 2, bheight / 2)
 
     love.graphics.setFont(font)
 
