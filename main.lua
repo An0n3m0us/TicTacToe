@@ -16,7 +16,7 @@ function menu()
     love.graphics.printf("TIC TAC TOE", 0, 100, width, 'center')
 
     love.graphics.setColor(1, 1, 1, 0.1)
-    love.graphics.draw(bgboard, width/2, 350, math.rad(90), 1, 1, bgwidth/2, bgheight/2)
+    love.graphics.draw(bgboard, width/2-bgwidth/2, 200)
 end
 
 function cross(x, y)
@@ -66,8 +66,8 @@ function love.draw()
     love.graphics.setLineWidth(5)
 
     love.graphics.setColor(0, 0, 0)
-    love.graphics.rectangle("line", width/2-75, 325, 150, 50, math.rad(90), math.rad(90), 500)
-    love.graphics.printf("PLAY", 0, 322.5, width, 'center')
+    love.graphics.rectangle("line", width/2-75, 330, 150, 50, math.rad(90), math.rad(90), 500)
+    love.graphics.printf("PLAY", 0, 327.5, width, 'center')
 end
 
 --[[ ANIMATION FOR CIRCLES AND CROSSES
