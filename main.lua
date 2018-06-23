@@ -1,7 +1,12 @@
 width, height = love.graphics.getDimensions( )
 font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
 
+local theme = 0
+local sound = 0
 local colors = {}
+
+local fadeIn = 0
+
 local crossAnim = {0, 0}
 local circleAnim = math.rad(-90)
 
@@ -68,8 +73,18 @@ function love.draw()
     love.graphics.setColor(0, 0, 0)
     love.graphics.rectangle("line", width/2-75, 330, 150, 50, math.rad(90), math.rad(90), 500)
     love.graphics.printf("PLAY", 0, 327.5, width, 'center')
-end
 
+    if theme == 0 then
+      colors[1] = {1, 1, 1}
+      colors[2] = {0, 0, 0, fadeIn}
+    end
+
+    for i = 1,#colors,1 do
+      for j = 1,3,1 do
+        print(colors[i][j])
+      end
+    end
+end
 --[[ ANIMATION FOR CIRCLES AND CROSSES
 if crossAnim[1] < 35 then
     crossAnim[1] = crossAnim[1] + 1.75
