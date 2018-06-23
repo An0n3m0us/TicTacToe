@@ -12,29 +12,34 @@ local colors = {}
 
 local titleScreen = 1
 local titleY = {-50, 0}
-local fadeIn = 255
-local fadeIn2 = 255
+local fadeIn = 0
+local fadeIn2 = 0
 local buttonSpeed = {5, 10}
 local winSound = 1
 
 function love.load()
     if theme == 0 then
-      bgboard = love.graphics.newImage("images/bgboard-white.png")
+      bg = love.graphics.newImage("images/bgboard-white.png")
       playB = love.graphics.newImage("images/playButton-white.png")
     elseif theme == 1 then
-      bgboard = love.graphics.newImage("images/bgboard-black.png")
+      bg = love.graphics.newImage("images/bgboard-black.png")
       playB = love.graphics.newImage("images/playButton-black.png")
     end
-    bgwidth, bgheight = bgboard:getWidth(), bgboard:getHeight()
-    playBwidth, playBheight = playB:getWidth(), playB:getHeight()
+    bgWidth, bgHeight = bg:getWidth(), bg:getHeight()
+    playWidth, playHeight = playB:getWidth(), playB:getHeight()
 end
 
 function menu()
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.printf("TIC TAC TOE", 0, 100, width, 'center')
+    love.graphics.setColor(colors[1])
+    love.graphics.printf("TIC TAC TOE", 0, titleY[1], width, 'center')
 
     love.graphics.setColor(colors[3])
-    love.graphics.draw(bgboard, width/2-bgwidth/2, 250)
+    love.graphics.draw(bg, width/2-bgWidth/2, 250)
+end
+
+function board()
+    love.graphics.setColor(colors[2])
+    --love.graphics.draw(board, width/2-boardWidth/2, 250)
 end
 
 function cross(x, y)
@@ -74,9 +79,10 @@ function circle(x, y)
 end
 
 function love.draw()
+    -- Theme choice
     if theme == 0 then
       colors[0] = {255, 255, 255}
-      colors[1] = {255, 255, 255, fadeIn}
+      colors[1] = {0, 0, 0, fadeIn}
       colors[2] = {0, 0, 0, fadeIn2}
       colors[3] = {255, 255, 255, fadeIn/10}
       colors[4] = {0, 0, 0}
@@ -94,13 +100,30 @@ function love.draw()
 
     love.graphics.setFont(font)
 
-    menu()
+    if titleScreen == 1 then
+        menu()
 
-    love.graphics.setLineStyle("smooth")
-    love.graphics.setLineWidth(5)
+        love.graphics.setColor(colors[1])
+        love.graphics.draw(playB, width/2-playWidth/4, 375.5, 0, 0.5)
+    end
 
-    love.graphics.setColor(colors[1])
-    love.graphics.draw(playB, width/2-playBwidth/4, 375.5, 0, 0.5)
+    -- Title animation
+    titleY[1] = titleY[1] + titleY[2]
+    if titleY[1] < 8 then
+        titleY[2] = 4.5;
+    elseif titleY[1] > 8 then
+        titleY[2] = titleY[2] - 0.1;
+        if titleY[2] > -0.2 and titleY[2] < 0.2 then
+            titleY[2] = 0
+        end
+    end
+
+    -- Fade-in animation
+    if titleScreen == 1 and fadeIn < 255 then
+        fadeIn = fadeIn + 5
+    elseif titleScreen == 0 and fadeIn > 1 then
+        fadeIn = fadeIn - 5
+    end
 end
 
 --[[ ANIMATION FOR CIRCLES AND CROSSES
