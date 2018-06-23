@@ -17,7 +17,7 @@ local fadeIn2 = 0
 local buttonSpeed = {5, 10}
 local winSound = 1
 
-local grid = {[0, 0, 0], [0, 0, 0], [0, 0, 0]}
+local grid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
 local circles = {}
 local crosses = {}
 
