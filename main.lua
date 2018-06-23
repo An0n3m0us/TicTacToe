@@ -22,6 +22,7 @@ local circles = {}
 local crosses = {}
 
 Circle = {}
+Cross = {}
 
 function love.load()
     if theme == 0 then
@@ -81,27 +82,45 @@ function Circle:draw()
     love.graphics.pop()
 end
 
-function cross(x, y)
+function Cross:new(o, x, y)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    self.x = x
+    self.y = y
+    self.l1 = -35
+    self.l2 = -35
+    return o
+end
+
+function Cross:draw()
+    if self.l1 < 35 then
+        self.l1 = self.l1 + 2
+    end
+    if self.l1 == 35 and self.l2 < 35 then
+        self.l2 = self.l2 + 2
+    end
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(8)
 
     love.graphics.setColor(0, 0, 0)
 
     love.graphics.push()
-    love.graphics.translate(x, y)
+    love.graphics.translate(self.x, self.y)
     love.graphics.rotate(math.rad(-45))
-    if crossAnim[1] > 0 then
-        love.graphics.rectangle("line", 0, -35, 1, crossAnim[1]*2, 1, 1, 500)
+    if self.l1 > 0 then
+        love.graphics.rectangle("line", 0, -35, 1, self.l1*2, 1, 1, 500)
     end
 
     love.graphics.rotate(math.rad(90))
-    if crossAnim[2] > 0 then
-        love.graphics.rectangle("line", 0, -35, 1, crossAnim[2]*2, 1, 1, 500)
+    if self.l2 > 0 then
+        love.graphics.rectangle("line", 0, -35, 1, self.l2*2, 1, 1, 500)
     end
     love.graphics.pop()
 end
 
-circle = Circle:new(nil, 50, 50)
+--circle = Circle:new(nil, 300, 300)
+--circle:draw()
 
 function love.draw()
     -- Theme choice
@@ -131,8 +150,6 @@ function love.draw()
         love.graphics.setColor(colors[1])
         love.graphics.draw(playB, width/2-playWidth/4, 375.5, 0, 0.5)
     end
-
-    circle:draw()
 
     -- Title animation
     titleY[1] = titleY[1] + titleY[2]
