@@ -51,10 +51,14 @@ function board()
     love.graphics.draw(board, width/2-boardWidth/2, 250)
 end
 
-function Circle:new(x, y)
-    x = x
-    y = y
+function Circle:new(o, x, y)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    self.x = x
+    self.y = y
     self.anim = 0
+    return o
 end
 
 function Circle:draw()
@@ -63,12 +67,12 @@ function Circle:draw()
 
     love.graphics.setColor(0, 0, 0)
     love.graphics.push()
-    love.graphics.translate(x, y)
-    love.graphics.arc("line", "open", 0, 0, 25, math.rad(-90), circleAnim, 500)
+    love.graphics.translate(self.x, self.y)
+    love.graphics.arc("line", "open", 0, 0, 25, math.rad(-90), self.anim, 500)
 
     love.graphics.setLineWidth(4)
     love.graphics.circle("line", 0, -25, 1.5, 500)
-    love.graphics.rotate(circleAnim-math.rad(-90))
+    love.graphics.rotate(self.anim-math.rad(-90))
     love.graphics.circle("line", 0, -25, 1.5, 500)
     love.graphics.pop()
 end
@@ -93,9 +97,8 @@ function cross(x, y)
     love.graphics.pop()
 end
 
-cir = Circle:new()
+circle = Circle:new(nil, 50, 50)
 
-cir:draw()
 function love.draw()
     -- Theme choice
     if theme == 0 then
@@ -124,6 +127,8 @@ function love.draw()
         love.graphics.setColor(colors[1])
         love.graphics.draw(playB, width/2-playWidth/4, 375.5, 0, 0.5)
     end
+
+    circle:draw()
 
     -- Title animation
     titleY[1] = titleY[1] + titleY[2]
