@@ -49,6 +49,28 @@ function board()
     love.graphics.draw(board, width/2-boardWidth/2, 250)
 end
 
+function circle(x, y)
+    this.x = x
+    this.y = y
+    this.anim = 0
+end
+
+function circle(x, y)
+    love.graphics.setLineStyle("smooth")
+    love.graphics.setLineWidth(8)
+
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.push()
+    love.graphics.translate(x, y)
+    love.graphics.arc("line", "open", 0, 0, 25, math.rad(-90), circleAnim, 500)
+
+    love.graphics.setLineWidth(4)
+    love.graphics.circle("line", 0, -25, 1.5, 500)
+    love.graphics.rotate(circleAnim-math.rad(-90))
+    love.graphics.circle("line", 0, -25, 1.5, 500)
+    love.graphics.pop()
+end
+
 function cross(x, y)
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(8)
@@ -66,22 +88,6 @@ function cross(x, y)
     if crossAnim[2] > 0 then
         love.graphics.rectangle("line", 0, -35, 1, crossAnim[2]*2, 1, 1, 500)
     end
-    love.graphics.pop()
-end
-
-function circle(x, y)
-    love.graphics.setLineStyle("smooth")
-    love.graphics.setLineWidth(8)
-
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.push()
-    love.graphics.translate(x, y)
-    love.graphics.arc("line", "open", 0, 0, 25, math.rad(-90), circleAnim, 500)
-
-    love.graphics.setLineWidth(4)
-    love.graphics.circle("line", 0, -25, 1.5, 500)
-    love.graphics.rotate(circleAnim-math.rad(-90))
-    love.graphics.circle("line", 0, -25, 1.5, 500)
     love.graphics.pop()
 end
 
@@ -132,20 +138,3 @@ function love.draw()
         fadeIn = fadeIn - 5
     end
 end
-
---[[ ANIMATION FOR CIRCLES AND CROSSES
-local crossAnim = {0, 0}
-local circleAnim = math.rad(-90)
-
-if crossAnim[1] < 35 then
-    crossAnim[1] = crossAnim[1] + 1.75
-end
-
-if crossAnim[1] == 35 and crossAnim[2] < 35 then
-    crossAnim[2] = crossAnim[2] + 1.75
-end
-
-if circleAnim < math.rad(270) then
-    circleAnim = circleAnim + math.rad(9)
-end
-]]
