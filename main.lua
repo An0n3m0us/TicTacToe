@@ -21,7 +21,7 @@ function menu()
     love.graphics.setColor(0, 0, 0)
     love.graphics.printf("TIC TAC TOE", 0, 100, width, 'center')
 
-    love.graphics.setColor(colors[4])
+    love.graphics.setColor(colors[3])
     love.graphics.draw(bgboard, width/2-bgwidth/2, 200)
 end
 
@@ -67,10 +67,12 @@ function love.draw()
     love.graphics.setFont(font)
 
     if theme == 0 then
-      colors[1] = {255, 255, 255}
-      colors[2] = {0, 0, 0, fadeIn}
-      colors[3] = {0, 0, 0, fadeIn2}
-      colors[4] = {255, 255, 255, fadeIn/10}
+      colors[0] = {255, 255, 255}
+      colors[1] = {0, 0, 0, fadeIn}
+      colors[2] = {0, 0, 0, fadeIn2}
+      colors[3] = {255, 255, 255, fadeIn/10}
+      colors[4] = {0, 0, 0}
+      colors[5] = {255, 255, 255}
     end
 
     menu()
@@ -81,10 +83,6 @@ function love.draw()
     love.graphics.setColor(0, 0, 0)
     love.graphics.rectangle("line", width/2-75, 330, 150, 50, math.rad(90), math.rad(90), 500)
     love.graphics.printf("PLAY", 0, 327.5, width, 'center')
-
-    if fadeIn < 255 then
-        fadeIn = fadeIn + 5
-    end
 end
 --[[ ANIMATION FOR CIRCLES AND CROSSES
 if crossAnim[1] < 35 then
