@@ -21,6 +21,8 @@ local grid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
 local circles = {}
 local crosses = {}
 
+Circle = {}
+
 function love.load()
     if theme == 0 then
       bg = love.graphics.newImage("images/bgboard-white.png")
@@ -49,13 +51,13 @@ function board()
     love.graphics.draw(board, width/2-boardWidth/2, 250)
 end
 
-function circle(x, y)
-    this.x = x
-    this.y = y
-    this.anim = 0
+function Circle:new(x, y)
+    x = x
+    y = y
+    self.anim = 0
 end
 
-function circle(x, y)
+function Circle:draw()
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(8)
 
@@ -91,6 +93,9 @@ function cross(x, y)
     love.graphics.pop()
 end
 
+cir = Circle:new()
+
+cir:draw()
 function love.draw()
     -- Theme choice
     if theme == 0 then
