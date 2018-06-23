@@ -5,7 +5,8 @@ local theme = 0
 local sound = 0
 local colors = {}
 
-local fadeIn = 0
+local fadeIn = 5
+local fadeIn2 = 5
 
 local crossAnim = {0, 0}
 local circleAnim = math.rad(-90)
@@ -20,7 +21,7 @@ function menu()
     love.graphics.setColor(0, 0, 0)
     love.graphics.printf("TIC TAC TOE", 0, 100, width, 'center')
 
-    love.graphics.setColor(1, 1, 1, 0.1)
+    love.graphics.setColor(colors[4])
     love.graphics.draw(bgboard, width/2-bgwidth/2, 200)
 end
 
@@ -61,9 +62,16 @@ function circle(x, y)
 end
 
 function love.draw()
-    love.graphics.setBackgroundColor(1, 1, 1)
+    love.graphics.setBackgroundColor(255, 255, 255)
 
     love.graphics.setFont(font)
+
+    if theme == 0 then
+      colors[1] = {255, 255, 255}
+      colors[2] = {0, 0, 0, fadeIn}
+      colors[3] = {0, 0, 0, fadeIn2}
+      colors[4] = {255, 255, 255, fadeIn/10}
+    end
 
     menu()
 
@@ -74,15 +82,8 @@ function love.draw()
     love.graphics.rectangle("line", width/2-75, 330, 150, 50, math.rad(90), math.rad(90), 500)
     love.graphics.printf("PLAY", 0, 327.5, width, 'center')
 
-    if theme == 0 then
-      colors[1] = {1, 1, 1}
-      colors[2] = {0, 0, 0, fadeIn}
-    end
-
-    for i = 1,#colors,1 do
-      for j = 1,3,1 do
-        print(colors[i][j])
-      end
+    if fadeIn < 255 then
+        fadeIn = fadeIn + 5
     end
 end
 --[[ ANIMATION FOR CIRCLES AND CROSSES
