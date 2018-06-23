@@ -57,11 +57,15 @@ function Circle:new(o, x, y)
     self.__index = self
     self.x = x
     self.y = y
-    self.anim = 0
+    self.anim = math.rad(-90)
     return o
 end
 
 function Circle:draw()
+    if self.anim < math.rad(270) then
+        self.anim = self.anim + math.rad(5)
+    end
+
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(8)
 
