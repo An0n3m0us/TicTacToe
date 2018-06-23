@@ -1,5 +1,5 @@
 width, height = love.graphics.getDimensions( )
-font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
+font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 75)
 
 local play = 0
 local turn = 1
@@ -10,11 +10,12 @@ local theme = 0
 local sound = 0
 local colors = {}
 
+local titleScreen = 1
+local titleY = {-50, 0}
 local fadeIn = 255
 local fadeIn2 = 255
-
-local crossAnim = {0, 0}
-local circleAnim = math.rad(-90)
+local buttonSpeed = {5, 10}
+local winSound = 1
 
 function love.load()
     if theme == 0 then
@@ -101,7 +102,11 @@ function love.draw()
     love.graphics.setColor(colors[1])
     love.graphics.draw(playB, width/2-playBwidth/4, 375.5, 0, 0.5)
 end
+
 --[[ ANIMATION FOR CIRCLES AND CROSSES
+local crossAnim = {0, 0}
+local circleAnim = math.rad(-90)
+
 if crossAnim[1] < 35 then
     crossAnim[1] = crossAnim[1] + 1.75
 end
