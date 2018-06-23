@@ -17,15 +17,22 @@ local fadeIn2 = 0
 local buttonSpeed = {5, 10}
 local winSound = 1
 
+local grid = {[0, 0, 0], [0, 0, 0], [0, 0, 0]}
+local circles = {}
+local crosses = {}
+
 function love.load()
     if theme == 0 then
       bg = love.graphics.newImage("images/bgboard-white.png")
+      board = love.graphics.newImage("images/board-white.png")
       playB = love.graphics.newImage("images/playButton-white.png")
     elseif theme == 1 then
       bg = love.graphics.newImage("images/bgboard-black.png")
+      board = love.graphics.newImage("images/board-black.png")
       playB = love.graphics.newImage("images/playButton-black.png")
     end
     bgWidth, bgHeight = bg:getWidth(), bg:getHeight()
+    boardWidth, boardHeight = board:getWidth(), board:getHeight()
     playWidth, playHeight = playB:getWidth(), playB:getHeight()
 end
 
@@ -39,7 +46,7 @@ end
 
 function board()
     love.graphics.setColor(colors[2])
-    --love.graphics.draw(board, width/2-boardWidth/2, 250)
+    love.graphics.draw(board, width/2-boardWidth/2, 250)
 end
 
 function cross(x, y)
