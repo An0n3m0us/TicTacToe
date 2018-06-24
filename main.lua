@@ -83,8 +83,14 @@ function menu()
 end
 
 function board()
+    love.graphics.setLineWidth(8)
+
     love.graphics.setColor(colors[2])
-    love.graphics.draw(board, width/2-boardWidth/2, 250)
+    love.graphics.rectangle("line", width/2-50, 250, 1, 300, 1, 1, 500)
+    love.graphics.rectangle("line", width/2+50, 250, 1, 300, 1, 1, 500)
+
+    love.graphics.rectangle("line", width/2-150, 300+50, 300, 1, 1, 1, 500)
+    love.graphics.rectangle("line", width/2-150, 300+150, 300, 1, 1, 1, 500)
 end
 
 Circle = {}
@@ -156,6 +162,21 @@ function Cross:draw()
         love.graphics.rectangle("line", 0, -35, 1, self.l2*2, 1, 1, 500)
     end
     love.graphics.pop()
+end
+
+Button = {}
+
+function Button:new(o, x, y, w, h, draw, action)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    self.x = x
+    self.y = y
+    self.w = w
+    self.h = h
+    self.draw = draw
+    self.action = action
+    return o
 end
 
 function playButton(x, y)
