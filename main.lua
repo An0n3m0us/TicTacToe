@@ -196,6 +196,17 @@ function Button:isClicked()
     end
 end
 
+function themeB(self)
+    love.graphics.setLineStyle("smooth")
+    love.graphics.setLineWidth(5)
+
+    love.graphics.push()
+    love.graphics.translate(self.x, self.y)
+    love.graphics.setColor(colors[4])
+    love.graphics.rectangle("line", -self.w/2, -self.h/2, self.w, self.h, 2.7, 2.7)
+    love.graphics.pop()
+end
+
 function playB(self)
     love.graphics.setFont(font2)
 
@@ -213,6 +224,14 @@ end
 --circle = Circle:new(nil, 300, 300)
 --circle:draw()
 
+themeButton = Button:new(nil, 300, 400, 50, 50, themeB,
+    function()
+        theme = theme + 1
+        if theme > 1 then
+            theme = 0
+        end
+    end
+)
 playButton = Button:new(nil, width/2, 400, 150, 50, playB,
     function()
         titleScreen = 0
@@ -259,6 +278,8 @@ function love.draw()
         play = 1
     end
 
+    themeButton:draw()
+
     -- Title animation
     titleY[1] = titleY[1] + titleY[2]
     if titleY[1] < 8 then
@@ -281,5 +302,6 @@ end
 function love.mousepressed(x, y, button, istouch)
    if button == 1 then
       playButton:isClicked()
+      themeButton:isClicked()
    end
 end
