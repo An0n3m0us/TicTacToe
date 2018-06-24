@@ -73,6 +73,13 @@ function menu()
     love.graphics.rotate(math.rad(90))
     love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
     love.graphics.pop()
+
+    if theme == 0 then
+      love.graphics.setColor(colors[0][1], colors[0][2], colors[0][3], 255-fadeIn/10)
+    elseif theme == 1 then
+      love.graphics.setColor(colors[0][1], colors[0][2], colors[0][3], 255-fadeIn/3)
+    end
+    love.graphics.rectangle("fill", width/2-155, 300-55, 310, 310)
 end
 
 function board()
@@ -172,14 +179,14 @@ function love.draw()
       colors[0] = {255, 255, 255}
       colors[1] = {0, 0, 0, fadeIn}
       colors[2] = {0, 0, 0, fadeIn2}
-      colors[3] = {255, 255, 255, fadeIn/10}
+      colors[3] = {0, 0, 0}
       colors[4] = {0, 0, 0}
       colors[5] = {255, 255, 255}
     elseif theme == 1 then
       colors[0] = {0, 0, 0}
       colors[1] = {255, 255, 255, fadeIn}
       colors[2] = {255, 255, 255, fadeIn2}
-      colors[3] = {255, 255, 255, fadeIn/5}
+      colors[3] = {255, 255, 255}
       colors[4] = {255, 255, 255}
       colors[5] = {0, 0, 0}
     end
