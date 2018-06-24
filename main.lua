@@ -166,7 +166,7 @@ function playButton(x, y)
     love.graphics.setLineWidth(5)
 
     love.graphics.setColor(colors[1])
-    love.graphics.rectangle("line", width/2-75, 375, 150, 50, math.rad(90), math.rad(90), 500)
+    love.graphics.rectangle("line", width/2-75, 375, 150, 50, 2.7, 2.7)
     love.graphics.printf("PLAY", 0, 372.5, width, 'center')
 end
 
