@@ -1,5 +1,6 @@
 width, height = love.graphics.getDimensions( )
 font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 75)
+font2 = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
 
 local play = 0
 local turn = 1
@@ -21,36 +22,65 @@ local grid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
 local circles = {}
 local crosses = {}
 
-Circle = {}
-Cross = {}
-
-function love.load()
-    if theme == 0 then
-      bg = love.graphics.newImage("images/bgboard-white.png")
-      board = love.graphics.newImage("images/board-white.png")
-      playB = love.graphics.newImage("images/playButton-white.png")
-    elseif theme == 1 then
-      bg = love.graphics.newImage("images/bgboard-black.png")
-      board = love.graphics.newImage("images/board-black.png")
-      playB = love.graphics.newImage("images/playButton-black.png")
-    end
-    bgWidth, bgHeight = bg:getWidth(), bg:getHeight()
-    boardWidth, boardHeight = board:getWidth(), board:getHeight()
-    playWidth, playHeight = playB:getWidth(), playB:getHeight()
-end
-
 function menu()
     love.graphics.setColor(colors[1])
     love.graphics.printf("TIC TAC TOE", 0, titleY[1], width, 'center')
 
+    love.graphics.setLineStyle("smooth")
+    love.graphics.setLineWidth(8)
+
     love.graphics.setColor(colors[3])
-    love.graphics.draw(bg, width/2-bgWidth/2, 250)
+    love.graphics.rectangle("line", width/2-50, 250, 1, 300, 1, 1, 500)
+    love.graphics.rectangle("line", width/2+50, 250, 1, 300, 1, 1, 500)
+
+    love.graphics.rectangle("line", width/2-150, 300+50, 300, 1, 1, 1, 500)
+    love.graphics.rectangle("line", width/2-150, 300+150, 300, 1, 1, 1, 500)
+
+    love.graphics.arc("line", "open", width/2-100, 300, 25, 0, 360, 500)
+    love.graphics.arc("line", "open", width/2+100, 300, 25, 0, 360, 500)
+    love.graphics.arc("line", "open", width/2, 300+100, 25, 0, 360, 500)
+    love.graphics.arc("line", "open", width/2-100, 300+200, 25, 0, 360, 500)
+    love.graphics.arc("line", "open", width/2+100, 300+200, 25, 0, 360, 500)
+
+    love.graphics.push()
+    love.graphics.translate(width/2, 300)
+    love.graphics.rotate(math.rad(-45))
+    love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
+    love.graphics.rotate(math.rad(90))
+    love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
+    love.graphics.pop()
+
+    love.graphics.push()
+    love.graphics.translate(width/2-100, 300+100)
+    love.graphics.rotate(math.rad(-45))
+    love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
+    love.graphics.rotate(math.rad(90))
+    love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
+    love.graphics.pop()
+
+    love.graphics.push()
+    love.graphics.translate(width/2+100, 300+100)
+    love.graphics.rotate(math.rad(-45))
+    love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
+    love.graphics.rotate(math.rad(90))
+    love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
+    love.graphics.pop()
+
+    love.graphics.push()
+    love.graphics.translate(width/2, 300+200)
+    love.graphics.rotate(math.rad(-45))
+    love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
+    love.graphics.rotate(math.rad(90))
+    love.graphics.rectangle("line", 0, -35, 1, 70, 1, 1, 500)
+    love.graphics.pop()
 end
 
 function board()
     love.graphics.setColor(colors[2])
     love.graphics.draw(board, width/2-boardWidth/2, 250)
 end
+
+Circle = {}
 
 function Circle:new(o, x, y)
     o = o or {}
@@ -81,6 +111,8 @@ function Circle:draw()
     love.graphics.circle("line", 0, -25, 1.5, 500)
     love.graphics.pop()
 end
+
+Cross = {}
 
 function Cross:new(o, x, y)
     o = o or {}
@@ -119,6 +151,18 @@ function Cross:draw()
     love.graphics.pop()
 end
 
+function playButton(x, y)
+    -- Play Button
+    love.graphics.setFont(font2)
+
+    love.graphics.setLineStyle("smooth")
+    love.graphics.setLineWidth(5)
+
+    love.graphics.setColor(colors[1])
+    love.graphics.rectangle("line", width/2-75, 375, 150, 50, math.rad(90), math.rad(90), 500)
+    love.graphics.printf("PLAY", 0, 372.5, width, 'center')
+end
+
 --circle = Circle:new(nil, 300, 300)
 --circle:draw()
 
@@ -147,8 +191,7 @@ function love.draw()
     if titleScreen == 1 then
         menu()
 
-        love.graphics.setColor(colors[1])
-        love.graphics.draw(playB, width/2-playWidth/4, 375.5, 0, 0.5)
+        playButton()
     end
 
     -- Title animation
