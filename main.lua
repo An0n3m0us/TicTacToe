@@ -1,6 +1,7 @@
 width, height = love.graphics.getDimensions( )
 font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 75)
 font2 = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
+font3 = love.graphics.newFont("DejaVuSans-Bold.ttf", 50)
 
 local play = 0
 local turn = 1
@@ -30,11 +31,11 @@ function menu()
     love.graphics.setLineWidth(8)
 
     love.graphics.setColor(colors[3])
-    love.graphics.rectangle("line", width/2-50, 250, 1, 300, 1, 1, 500)
-    love.graphics.rectangle("line", width/2+50, 250, 1, 300, 1, 1, 500)
+    love.graphics.rectangle("line", width/2-50, 250, 1, 300, 0.5, 0.5)
+    love.graphics.rectangle("line", width/2+50, 250, 1, 300, 0.5, 0.5)
 
-    love.graphics.rectangle("line", width/2-150, 300+50, 300, 1, 1, 1, 500)
-    love.graphics.rectangle("line", width/2-150, 300+150, 300, 1, 1, 1, 500)
+    love.graphics.rectangle("line", width/2-150, 300+50, 300, 1, 0.5, 0.5)
+    love.graphics.rectangle("line", width/2-150, 300+150, 300, 1, 0.5, 0.5)
 
     love.graphics.arc("line", "open", width/2-100, 300, 25, 0, 360, 500)
     love.graphics.arc("line", "open", width/2+100, 300, 25, 0, 360, 500)
@@ -85,12 +86,19 @@ end
 function board()
     love.graphics.setLineWidth(8)
 
-    love.graphics.setColor(colors[2])
-    love.graphics.rectangle("line", width/2-50, 250, 1, 300, 1, 1, 500)
-    love.graphics.rectangle("line", width/2+50, 250, 1, 300, 1, 1, 500)
+    love.graphics.setColor(colors[3])
+    love.graphics.rectangle("line", width/2-50, 250, 1, 300, 0.5, 0.5)
+    love.graphics.rectangle("line", width/2+50, 250, 1, 300, 0.5, 0.5)
 
-    love.graphics.rectangle("line", width/2-150, 300+50, 300, 1, 1, 1, 500)
-    love.graphics.rectangle("line", width/2-150, 300+150, 300, 1, 1, 1, 500)
+    love.graphics.rectangle("line", width/2-150, 300+50, 300, 1, 0.5, 0.5)
+    love.graphics.rectangle("line", width/2-150, 300+150, 300, 1, 0.5, 0.5)
+
+    if theme == 0 then
+      love.graphics.setColor(colors[0][1], colors[0][2], colors[0][3], 255-fadeIn2)
+    elseif theme == 1 then
+      love.graphics.setColor(colors[0][1], colors[0][2], colors[0][3], 255-fadeIn2)
+    end
+    love.graphics.rectangle("fill", width/2-155, 300-55, 310, 310)
 end
 
 Circle = {}
@@ -233,10 +241,22 @@ function love.draw()
 
     love.graphics.setFont(font)
 
-    if titleScreen == 1 then
+    -- Menu screen
+    if titleScreen == 1 and fadeIn > 1 then
         menu()
 
         playButton:draw()
+    end
+
+    -- Play screen
+    if titleScreen == 0 then
+        love.graphics.setFont(font3)
+
+        board();
+        if fadeIn2 < 255 and win == 0 then
+            fadeIn2 = fadeIn2 + 5
+        end
+        play = 1
     end
 
     -- Title animation
