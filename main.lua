@@ -166,7 +166,7 @@ end
 
 Button = {}
 
-function Button:new(o, x, y, w, h, action)
+function Button:new(o, x, y, w, h, draw, action)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
@@ -174,6 +174,7 @@ function Button:new(o, x, y, w, h, action)
     self.y = y
     self.w = w
     self.h = h
+    self.draw = draw
     self.action = action
     return o
 end
@@ -187,7 +188,7 @@ function Button:isClicked()
     end
 end
 
-function Button:draw()
+function playB(self)
     love.graphics.setFont(font2)
 
     love.graphics.setLineStyle("smooth")
@@ -204,7 +205,7 @@ end
 --circle = Circle:new(nil, 300, 300)
 --circle:draw()
 
-playB = Button:new(nil, width/2, 400, 150, 50,
+playButton = Button:new(nil, width/2, 400, 150, 50, playB,
     function()
         titleScreen = 0
     end
@@ -235,7 +236,7 @@ function love.draw()
     if titleScreen == 1 then
         menu()
 
-        playB:draw()
+        playButton:draw()
     end
 
     -- Title animation
@@ -259,6 +260,6 @@ end
 
 function love.mousepressed(x, y, button, istouch)
    if button == 1 then
-      playB:isClicked()
+      playButton:isClicked()
    end
 end
