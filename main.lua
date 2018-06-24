@@ -166,7 +166,7 @@ end
 
 Button = {}
 
-function Button:new(o, x, y, w, h, draw, action)
+function Button:new(o, x, y, w, h, action)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
@@ -174,25 +174,41 @@ function Button:new(o, x, y, w, h, draw, action)
     self.y = y
     self.w = w
     self.h = h
-    self.draw = draw
     self.action = action
     return o
 end
 
-function playButton(x, y)
-    -- Play Button
+function Button:isClicked()
+    local mouseX = love.mouse.getX()
+    local mouseY = love.mouse.getY()
+
+    if mouseX >= self.x - self.w/2 and mouseX <= self.x + self.w/2 and mouseY >= self.y - self.h/2 and mouseY <= self.y + self.h/2 then
+        self.action()
+    end
+end
+
+function Button:draw()
     love.graphics.setFont(font2)
 
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(5)
 
+    love.graphics.push()
+    love.graphics.translate(self.x, self.y)
     love.graphics.setColor(colors[1])
-    love.graphics.rectangle("line", width/2-75, 375, 150, 50, 2.7, 2.7)
-    love.graphics.printf("PLAY", 0, 372.5, width, 'center')
+    love.graphics.rectangle("line", -self.w/2, -self.h/2, self.w, self.h, 2.7, 2.7)
+    love.graphics.printf("PLAY", -width/2+75-self.w/2, -2.5-self.h/2, width, 'center')
+    love.graphics.pop()
 end
 
 --circle = Circle:new(nil, 300, 300)
 --circle:draw()
+
+playB = Button:new(nil, width/2, 400, 150, 50,
+    function()
+        titleScreen = 0
+    end
+)
 
 function love.draw()
     -- Theme choice
@@ -219,7 +235,7 @@ function love.draw()
     if titleScreen == 1 then
         menu()
 
-        playButton()
+        playB:draw()
     end
 
     -- Title animation
@@ -239,4 +255,10 @@ function love.draw()
     elseif titleScreen == 0 and fadeIn > 1 then
         fadeIn = fadeIn - 5
     end
+end
+
+function love.mousepressed(x, y, button, istouch)
+   if button == 1 then
+      playB:isClicked()
+   end
 end
