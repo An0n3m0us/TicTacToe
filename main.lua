@@ -101,16 +101,15 @@ function board()
     love.graphics.rectangle("fill", width/2-155, 300-55, 310, 310)
 end
 
-Circle = {}
+local Circle = {}
+Circle.__index = Circle
 
 function Circle:new(o, x, y)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
+    local self = setmetatable({}, Circle)
     self.x = x
     self.y = y
     self.anim = math.rad(-90)
-    return o
+    return self
 end
 
 function Circle:draw()
@@ -133,17 +132,16 @@ function Circle:draw()
     love.graphics.pop()
 end
 
-Cross = {}
+local Cross = {}
+Cross.__index = Cross
 
 function Cross:new(o, x, y)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
+    local self = setmetatable({}, Cross)
     self.x = x
     self.y = y
     self.l1 = -35
     self.l2 = -35
-    return o
+    return self
 end
 
 function Cross:draw()
@@ -172,19 +170,18 @@ function Cross:draw()
     love.graphics.pop()
 end
 
-Button = {}
+local Button = {}
+Button.__index = Button
 
-function Button:new(o, x, y, w, h, draw, action)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
+function Button:new(x, y, w, h, draw, action)
+    local self = setmetatable({}, Button)
     self.x = x
     self.y = y
     self.w = w
     self.h = h
     self.draw = draw
     self.action = action
-    return o
+    return self
 end
 
 function Button:isClicked()
@@ -224,7 +221,7 @@ end
 --circle = Circle:new(nil, 300, 300)
 --circle:draw()
 
-themeButton = Button:new(nil, 300, 400, 50, 50, themeB,
+themeButton = Button:new(300, 400, 50, 50, themeB,
     function()
         theme = theme + 1
         if theme > 1 then
@@ -232,7 +229,7 @@ themeButton = Button:new(nil, 300, 400, 50, 50, themeB,
         end
     end
 )
-playButton = Button:new(nil, width/2, 400, 150, 50, playB,
+playButton = Button:new(width/2, 400, 150, 50, playB,
     function()
         titleScreen = 0
     end
