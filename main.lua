@@ -238,6 +238,10 @@ playButton = Button:new(nil, width/2, 400, 150, 50, playB,
     end
 )
 
+function love.load()
+    turn = love.math.random(1, 2)
+end
+
 function love.draw()
     -- Theme choice
     if theme == 0 then
