@@ -363,5 +363,40 @@ function love.mousepressed(x, y, button, istouch)
             playButton:isClicked()
         end
         themeButton:isClicked()
+
+        if play == 1 then
+          for i = 0, 300, 100 do
+              if mouseX >= 150+i and mouseX <= (150+i)+100 and mouseY >= 150 and mouseY <= 150+100 and grid[0][i/100] == 0 then
+                  clicks = clicks + 1
+                  if turn == 1 then
+                      grid[0][i/100] = 1
+                      turn = 2
+                  elseif turn == 2 then
+                      grid[0][i/100] = 2
+                      turn = 1
+                  end
+              end
+              if mouseX >= 150+i and mouseX <= (150+i)+100 and mouseY >= 250 and mouseY <= 250+100 and grid[1][i/100] == 0 then
+                  clicks = clicks + 1
+                  if turn == 1 then
+                      grid[1][i/100] = 1
+                      turn = 2
+                  elseif turn == 2 then
+                      grid[1][i/100] = 2
+                      turn = 1
+                  end
+              end
+              if mouseX >= 150+i and mouseX <= (150+i)+100 and mouseY >= 350 and mouseY <= 350+100 and grid[2][i/100] == 0 then
+                  clicks = clicks + 1
+                  if turn == 1 then
+                      grid[2][i/100] = 1
+                      turn = 2
+                  elseif turn == 2 then
+                      grid[2][i/100] = 2
+                      turn = 1
+                  end
+              end
+          end
+       end
     end
 end
