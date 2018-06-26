@@ -218,7 +218,7 @@ function playB(self)
     love.graphics.pop()
 end
 
-themeButton = Button:new(300, 400, 50, 50, themeB,
+themeButton = Button:new(width-80, 80, 150, 150, themeB,
     function()
         theme = theme + 1
         if theme > 1 then
@@ -259,14 +259,13 @@ function love.draw()
     love.graphics.setFont(font)
 
     -- Menu screen
-    if titleScreen == 1 and fadeIn > 1 then
+    if titleScreen == 1 or fadeIn > 1 then
         menu()
-
         playButton:draw()
     end
 
     -- Play screen
-    if titleScreen == 0 then
+    if titleScreen == 0 and fadeIn == 0 then
         love.graphics.setFont(font3)
 
         board();
