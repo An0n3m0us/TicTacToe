@@ -104,7 +104,7 @@ end
 local Circle = {}
 Circle.__index = Circle
 
-function Circle:new(o, x, y)
+function Circle:new(x, y)
     local self = setmetatable({}, Circle)
     self.x = x
     self.y = y
@@ -135,7 +135,7 @@ end
 local Cross = {}
 Cross.__index = Cross
 
-function Cross:new(o, x, y)
+function Cross:new(x, y)
     local self = setmetatable({}, Cross)
     self.x = x
     self.y = y
@@ -217,9 +217,6 @@ function playB(self)
     love.graphics.printf("PLAY", -width/2+75-self.w/2, -2.5-self.h/2, width, 'center')
     love.graphics.pop()
 end
-
---circle = Circle:new(nil, 300, 300)
---circle:draw()
 
 themeButton = Button:new(300, 400, 50, 50, themeB,
     function()
