@@ -228,7 +228,7 @@ function playB(self)
     love.graphics.pop()
 end
 
-themeButton = Button:new(width-55, 55, 100, 100, themeB,
+themeButton = Button:new(width+70, 55, 100, 100, themeB,
     function()
         theme = theme + 1
         if theme > 1 then
@@ -285,6 +285,7 @@ function love.draw()
         play = 1
     end
 
+    -- Buttons
     themeButton:draw()
 
     -- Title animation
@@ -296,6 +297,18 @@ function love.draw()
         if titleY[2] > -0.2 and titleY[2] < 0.2 then
             titleY[2] = 0
         end
+    end
+
+    -- Slide-buttons animation
+    if themeButton.x > width-55 then
+        themeButton.x = themeButton.x - buttonSpeed[1]
+    end
+    if buttonSpeed[1] > 0 then
+        buttonSpeed[1] = buttonSpeed[1] - 0.1
+    end
+    if buttonSpeed[1] > -0.5 and buttonSpeed[1] < 0.5 then
+        buttonSpeed[1] = 0
+        themeButton.x = width-55
     end
 
     -- Fade-in animation
