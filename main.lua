@@ -187,6 +187,9 @@ function Button:new(x, y, w, h, draw, action)
 end
 
 function Button:isClicked()
+    local mouseX = love.mouse.getX()
+    local mouseY = love.mouse.getY()
+    
     if mouseX >= self.x - self.w/2 and mouseX <= self.x + self.w/2 and mouseY >= self.y - self.h/2 and mouseY <= self.y + self.h/2 then
         self.action()
     end
