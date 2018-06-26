@@ -201,6 +201,16 @@ function themeB(self)
     love.graphics.translate(self.x, self.y)
     love.graphics.setColor(colors[4])
     love.graphics.rectangle("line", -self.w/2, -self.h/2, self.w, self.h, 2.7, 2.7)
+    love.graphics.rectangle("fill", -self.w/2+25, -self.h/2+25, self.w-50, self.h-50, 3, 3)
+    love.graphics.setColor(colors[5])
+    if theme == 0 then
+        love.graphics.setColor(255, 255, 255)
+    elseif theme == 1 then
+        love.graphics.setColor(0, 0, 0)
+    end
+    love.graphics.rectangle("line", -self.w/8, -self.h/2+35, 25, 1, 2.7, 2.7)
+    love.graphics.rectangle("line", -self.w/8, -self.h/2+50, 25, 1, 2.7, 2.7)
+    love.graphics.rectangle("line", -self.w/8, -self.h/2+65, 25, 1, 2.7, 2.7)
     love.graphics.pop()
 end
 
@@ -218,7 +228,7 @@ function playB(self)
     love.graphics.pop()
 end
 
-themeButton = Button:new(width-80, 80, 150, 150, themeB,
+themeButton = Button:new(width-55, 55, 100, 100, themeB,
     function()
         theme = theme + 1
         if theme > 1 then
