@@ -1,4 +1,6 @@
-width, height = love.graphics.getDimensions( )
+width, height = love.graphics.getDimensions()
+local mouseX = love.mouse.getX()
+local mouseY = love.mouse.getY()
 font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 75)
 font2 = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
 font3 = love.graphics.newFont("DejaVuSans-Bold.ttf", 50)
@@ -185,9 +187,6 @@ function Button:new(x, y, w, h, draw, action)
 end
 
 function Button:isClicked()
-    local mouseX = love.mouse.getX()
-    local mouseY = love.mouse.getY()
-
     if mouseX >= self.x - self.w/2 and mouseX <= self.x + self.w/2 and mouseY >= self.y - self.h/2 and mouseY <= self.y + self.h/2 then
         self.action()
     end
@@ -242,6 +241,23 @@ playButton = Button:new(width/2, 400, 150, 50, playB,
     end
 )
 
+-- Create circles and crosses
+--circles.push(Circle:new(i, 0))
+
+for i = 0, 2, 1 do
+    table.insert(circles, Circle:new(i, 0))
+    table.insert(crosses, Cross:new(i, 0))
+end
+for i = 0, 2, 1 do
+    table.insert(circles, Circle:new(i, 1))
+    table.insert(crosses, Cross:new(i, 1))
+end
+for i = 0, 2, 1 do
+    table.insert(circles, Circle:new(i, 2))
+    table.insert(crosses, Cross:new(i, 2))
+end
+
+-- Random turn
 function love.load()
     turn = love.math.random(1, 2)
 end
@@ -317,11 +333,35 @@ function love.draw()
     elseif titleScreen == 0 and fadeIn > 1 then
         fadeIn = fadeIn - 5
     end
+
+    -- Draw circles or crosses
+    for i = 0, 2, 1 do
+        if grid[1][i] == 1 then
+            circles[i]:draw()
+        end
+        if grid[1][i] == 2 then
+            crosses[i]:draw()
+        end
+        if grid[2][i] == 1 then
+            circles[i+3]:draw()
+        end
+        if grid[2][i] == 2 then
+            crosses[i+3]:draw()
+        end
+        if grid[3][i] == 1 then
+            circles[i+6]:draw()
+        end
+        if grid[3][i] == 2 then
+            crosses[i+6]:draw()
+        end
+    end
 end
 
 function love.mousepressed(x, y, button, istouch)
-   if button == 1 then
-      playButton:isClicked()
-      themeButton:isClicked()
-   end
+    if button == 1 then
+        if play == 0 then
+            playButton:isClicked()
+        end
+        themeButton:isClicked()
+    end
 end
