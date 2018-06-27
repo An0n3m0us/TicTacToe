@@ -1,6 +1,4 @@
 width, height = love.graphics.getDimensions()
-local mouseX = love.mouse.getX()
-local mouseY = love.mouse.getY()
 font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 75)
 font2 = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
 font3 = love.graphics.newFont("DejaVuSans-Bold.ttf", 50)
@@ -95,6 +93,16 @@ function board()
     love.graphics.rectangle("line", width/2-150, 300+50, 300, 1, 0.5, 0.5)
     love.graphics.rectangle("line", width/2-150, 300+150, 300, 1, 0.5, 0.5)
 
+    -- Bigger board
+    -- love.graphics.push()
+    -- love.graphics.translate(width/2, height/2)
+    -- love.graphics.rectangle("line", -100, -300, 1, 600, 0.5, 0.5)
+    -- love.graphics.rectangle("line", 100, -300, 1, 600, 0.5, 0.5)
+    --
+    -- love.graphics.rectangle("line", -300, -100, 600, 1, 0.5, 0.5)
+    -- love.graphics.rectangle("line", -300, 100, 600, 1, 0.5, 0.5)
+    -- love.graphics.pop()
+
     if theme == 0 then
       love.graphics.setColor(colors[0][1], colors[0][2], colors[0][3], 255-fadeIn2)
     elseif theme == 1 then
@@ -124,7 +132,7 @@ function Circle:draw()
 
     love.graphics.setColor(0, 0, 0)
     love.graphics.push()
-    love.graphics.translate(self.x, self.y)
+    love.graphics.translate(490+100*self.x+50, 250+100*self.y+50)
     love.graphics.arc("line", "open", 0, 0, 25, math.rad(-90), self.anim, 500)
 
     love.graphics.setLineWidth(4)
@@ -141,32 +149,33 @@ function Cross:new(x, y)
     local self = setmetatable({}, Cross)
     self.x = x
     self.y = y
-    self.l1 = -35
-    self.l2 = -35
+    self.l1 = 0
+    self.l2 = 0
     return self
 end
 
 function Cross:draw()
     if self.l1 < 35 then
-        self.l1 = self.l1 + 2
+        self.l1 = self.l1 + 1.25
     end
     if self.l1 == 35 and self.l2 < 35 then
-        self.l2 = self.l2 + 2
+        self.l2 = self.l2 + 1.25
     end
+
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(8)
 
     love.graphics.setColor(0, 0, 0)
 
     love.graphics.push()
-    love.graphics.translate(self.x, self.y)
+    love.graphics.translate(490+100*self.x+50, 250+100*self.y+50)
     love.graphics.rotate(math.rad(-45))
-    if self.l1 > 0 then
+    if self.l1 > 1 then
         love.graphics.rectangle("line", 0, -35, 1, self.l1*2, 1, 1, 500)
     end
 
     love.graphics.rotate(math.rad(90))
-    if self.l2 > 0 then
+    if self.l2 > 1 then
         love.graphics.rectangle("line", 0, -35, 1, self.l2*2, 1, 1, 500)
     end
     love.graphics.pop()
@@ -189,7 +198,7 @@ end
 function Button:isClicked()
     local mouseX = love.mouse.getX()
     local mouseY = love.mouse.getY()
-    
+
     if mouseX >= self.x - self.w/2 and mouseX <= self.x + self.w/2 and mouseY >= self.y - self.h/2 and mouseY <= self.y + self.h/2 then
         self.action()
     end
@@ -338,7 +347,7 @@ function love.draw()
     end
 
     -- Draw circles or crosses
-    for i = 0, 2, 1 do
+    for i = 0, 3, 1 do
         if grid[1][i] == 1 then
             circles[i]:draw()
         end
@@ -369,17 +378,7 @@ function love.mousepressed(x, y, button, istouch)
 
         if play == 1 then
           for i = 0, 300, 100 do
-              if mouseX >= 150+i and mouseX <= (150+i)+100 and mouseY >= 150 and mouseY <= 150+100 and grid[0][i/100] == 0 then
-                  clicks = clicks + 1
-                  if turn == 1 then
-                      grid[0][i/100] = 1
-                      turn = 2
-                  elseif turn == 2 then
-                      grid[0][i/100] = 2
-                      turn = 1
-                  end
-              end
-              if mouseX >= 150+i and mouseX <= (150+i)+100 and mouseY >= 250 and mouseY <= 250+100 and grid[1][i/100] == 0 then
+              if x >= 390+i and x <= (390+i)+100 and y >= 250 and y <= 250+100 and grid[1][i/100] == 0 then
                   clicks = clicks + 1
                   if turn == 1 then
                       grid[1][i/100] = 1
@@ -389,13 +388,23 @@ function love.mousepressed(x, y, button, istouch)
                       turn = 1
                   end
               end
-              if mouseX >= 150+i and mouseX <= (150+i)+100 and mouseY >= 350 and mouseY <= 350+100 and grid[2][i/100] == 0 then
+              if x >= 390+i and x <= (390+i)+100 and y >= 350 and y <= 350+100 and grid[2][i/100] == 0 then
                   clicks = clicks + 1
                   if turn == 1 then
                       grid[2][i/100] = 1
                       turn = 2
                   elseif turn == 2 then
                       grid[2][i/100] = 2
+                      turn = 1
+                  end
+              end
+              if x >= 390+i and x <= (390+i)+100 and y >= 450 and y <= 450+100 and grid[3][i/100] == 0 then
+                  clicks = clicks + 1
+                  if turn == 1 then
+                      grid[3][i/100] = 1
+                      turn = 2
+                  elseif turn == 2 then
+                      grid[3][i/100] = 2
                       turn = 1
                   end
               end
