@@ -130,7 +130,7 @@ function Circle:draw()
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(8)
 
-    love.graphics.setColor(0, 0, 0)
+    love.graphics.setColor(colors[3])
     love.graphics.push()
     love.graphics.translate(490+100*self.x+50, 250+100*self.y+50)
     love.graphics.arc("line", "open", 0, 0, 25, math.rad(-90), self.anim, 500)
@@ -165,7 +165,7 @@ function Cross:draw()
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(8)
 
-    love.graphics.setColor(0, 0, 0)
+    love.graphics.setColor(colors[3])
 
     love.graphics.push()
     love.graphics.translate(490+100*self.x+50, 250+100*self.y+50)
@@ -239,6 +239,22 @@ function playB(self)
     love.graphics.pop()
 end
 
+function restartB(self)
+    --textSize(40);
+
+    love.graphics.setLineStyle("smooth")
+    love.graphics.setLineWidth(5)
+
+    love.graphics.setColor(colors[4])
+
+    love.graphics.push()
+    love.graphics.translate(self.x, self.y)
+    love.graphics.rectangle("line", -self.w/2, -self.h/2, self.w, self.h, 2.7, 2.7)
+    love.graphics.setColor(colors[1])
+    love.graphics.printf("RESTART", -width/2+75-self.w/2, -2.5-self.h/2, width, 'center')
+    love.graphics.pop()
+end
+
 themeButton = Button:new(width+70, 55, 100, 100, themeB,
     function()
         theme = theme + 1
@@ -252,9 +268,38 @@ playButton = Button:new(width/2, 400, 150, 50, playB,
         titleScreen = 0
     end
 )
+restartButton = Button:new(width/2, height+100, 250, 50, restartB,
+    function()
+        play = 0
+        clicks = 0
+        win = 0
+        titleScreen = 1
+        titleY = {-50, 0}
+        fadeIn = 5
+        fadeIn2 = 5
+        buttonSpeed = {5, 10}
+        grid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+        circles = {}
+        crosses = {}
+        winSound = 1
+        themeButton.x = 665
+        soundButton.x = -90
+        restartButton.y = 700
 
--- Create circles and crosses
---circles.push(Circle:new(i, 0))
+        for i = 0, 2, 1 do
+            table.insert(circles, Circle:new(i, 0))
+            table.insert(crosses, Cross:new(i, 0))
+        end
+        for i = 0, 2, 1 do
+            table.insert(circles, Circle:new(i, 1))
+            table.insert(crosses, Cross:new(i, 1))
+        end
+        for i = 0, 2, 1 do
+            table.insert(circles, Circle:new(i, 2))
+            table.insert(crosses, Cross:new(i, 2))
+        end
+    end
+)
 
 for i = 0, 2, 1 do
     table.insert(circles, Circle:new(i, 0))
@@ -331,12 +376,22 @@ function love.draw()
     if themeButton.x > width-55 then
         themeButton.x = themeButton.x - buttonSpeed[1]
     end
+    if win == 1 or win == 2 or win == 3 then
+        restartButton.y = restartButton.y - buttonSpeed[2]
+    end
     if buttonSpeed[1] > 0 then
         buttonSpeed[1] = buttonSpeed[1] - 0.1
+    end
+    if win == 1 and buttonSpeed[2] > 0 or win == 2 and buttonSpeed[2] > 0 or win == 3 and buttonSpeed[2] > 0 then
+        buttonSpeed[2] = buttonSpeed[2] - 0.2
     end
     if buttonSpeed[1] > -0.5 and buttonSpeed[1] < 0.5 then
         buttonSpeed[1] = 0
         themeButton.x = width-55
+    end
+    if buttonSpeed[2] > -0.5 and buttonSpeed[2] < 0.5 then
+        buttonSpeed[2] = 0
+        restartButton.y = 447
     end
 
     -- Fade-in animation
@@ -367,6 +422,37 @@ function love.draw()
             crosses[i+6]:draw()
         end
     end
+
+    -- Win check
+    -- Horizontal
+    for i = 1, 3, 1 do
+        if grid[i][1] == 1 and grid[i][2] == 1 and grid[i][3] == 1 then
+            win = 1
+        elseif grid[i][1] == 2 and grid[i][2] == 2 and grid[i][3] == 2 then
+            win = 2
+        end
+    end
+    print(win)
+
+    for i = 1, 3, 1 do
+        if grid[1][i] == 1 and grid[2][i] == 1 and grid[3][i] == 1 then
+            win = 1
+        elseif grid[1][i] == 2 and grid[2][i] == 2 and grid[3][i] == 2 then
+            win = 2
+        end
+    end
+
+    --Diagonal
+    if grid[1][1] == 1 and grid[2][2] == 1 and grid[3][3] == 1 then
+        win = 1
+    elseif grid[3][1] == 1 and grid[2][2] == 1 and grid[1][3] == 1 then
+        win = 1
+    end
+    if grid[1][1] == 2 and grid[2][2] == 2 and grid[3][3] == 2 then
+        win = 2
+    elseif grid[3][1] == 2 and grid[2][2] == 2 and grid[1][3] == 2 then
+        win = 2
+    end
 end
 
 function love.mousepressed(x, y, button, istouch)
@@ -375,6 +461,9 @@ function love.mousepressed(x, y, button, istouch)
             playButton:isClicked()
         end
         themeButton:isClicked()
+        if win == 1 or win == 2 or win == 3 then
+            restartButton.isClicked()
+        end
 
         if play == 1 then
           for i = 0, 300, 100 do
