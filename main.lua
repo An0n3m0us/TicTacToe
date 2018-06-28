@@ -17,7 +17,6 @@ local titleY = {-50, 0}
 local fadeIn = 0
 local fadeIn2 = 0
 local buttonSpeed = {5, 10}
-local winSound = 1
 
 local grid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
 local circles = {}
@@ -251,7 +250,7 @@ function restartB(self)
     love.graphics.translate(self.x, self.y)
     love.graphics.rectangle("line", -self.w/2, -self.h/2, self.w, self.h, 2.7, 2.7)
     love.graphics.setColor(colors[1])
-    love.graphics.printf("RESTART", -width/2+75-self.w/2, -2.5-self.h/2, width, 'center')
+    love.graphics.printf("RESTART", -width/2+125-self.w/2, -2.5-self.h/2, width, 'center')
     love.graphics.pop()
 end
 
@@ -275,16 +274,14 @@ restartButton = Button:new(width/2, height+100, 250, 50, restartB,
         win = 0
         titleScreen = 1
         titleY = {-50, 0}
-        fadeIn = 5
-        fadeIn2 = 5
+        fadeIn = 0
+        fadeIn2 = 0
         buttonSpeed = {5, 10}
         grid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
         circles = {}
         crosses = {}
-        winSound = 1
-        themeButton.x = 665
-        soundButton.x = -90
-        restartButton.y = 700
+        themeButton.x = width+70
+        restartButton.y = height+100
 
         for i = 0, 2, 1 do
             table.insert(circles, Circle:new(i, 0))
@@ -361,6 +358,8 @@ function love.draw()
     -- Buttons
     themeButton:draw()
 
+    restartButton:draw()
+
     -- Title animation
     titleY[1] = titleY[1] + titleY[2]
     if titleY[1] < 8 then
@@ -432,7 +431,6 @@ function love.draw()
             win = 2
         end
     end
-    print(win)
 
     for i = 1, 3, 1 do
         if grid[1][i] == 1 and grid[2][i] == 1 and grid[3][i] == 1 then
@@ -462,7 +460,7 @@ function love.mousepressed(x, y, button, istouch)
         end
         themeButton:isClicked()
         if win == 1 or win == 2 or win == 3 then
-            restartButton.isClicked()
+            restartButton:isClicked()
         end
 
         if play == 1 then
