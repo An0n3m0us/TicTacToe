@@ -456,41 +456,40 @@ function love.draw()
     end
 
     -- Win scenes
-    if win == 1 then
+    if win == 0 and clicks == 9 then
+        win = 3
+    end
+
+    if win == 1 or win == 2 or win == 3 then
         love.graphics.setFont(font4)
         if fadeIn3 < 225 then
             fadeIn3 = fadeIn3 + 5
         end
         love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
-        love.graphics.printf("O wins!", width/2-width/2, height/2-20, width, 'center')
-        play = 0
-        restartButton:draw()
-    elseif win == 2 then
-        love.graphics.setFont(font4)
-        if fadeIn3 < 225 then
-            fadeIn3 = fadeIn3 + 5
+        if win == 1 then
+            love.graphics.setFont(font4)
+            if fadeIn3 < 225 then
+                fadeIn3 = fadeIn3 + 5
+            end
+            love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
+            love.graphics.printf("O wins!", width/2-width/2, height/2-20, width, 'center')
+            play = 0
+            restartButton:draw()
+        elseif win == 2 then
+            love.graphics.setFont(font4)
+            if fadeIn3 < 225 then
+                fadeIn3 = fadeIn3 + 5
+            end
+            love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
+            love.graphics.printf("X wins!", width/2-width/2, height/2-20, width, 'center')
+            play = 0
+            restartButton:draw()
+        elseif win == 3 and clicks == 9 then
+            love.graphics.printf("Draw!", width/2-width/2, height/2-20, width, 'center')
         end
-        love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
-        love.graphics.printf("O wins!", width/2-width/2, height/2-20, width, 'center')
         play = 0
         restartButton:draw()
     end
-
-    -- if (win === 0 && clicks === 9) {
-    --     win = 3;
-    -- }
-    --
-    -- if (win === 3 && clicks === 9) {
-    --     textAlign(CENTER, CENTER);
-    --     textSize(100);
-    --     if (fadeIn2 > 25) {
-    --         fadeIn2 -= 5;
-    --     }
-    --     text("Draw!", 300, 300);
-    --     winSound = 0;
-    --     play = 0;
-    --     restartButton.draw();
-    -- }
 end
 
 function love.mousepressed(x, y, button, istouch)
