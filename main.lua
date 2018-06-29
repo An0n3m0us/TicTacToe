@@ -1,3 +1,7 @@
+-- Add sound effects
+--src1 = love.audio.newSource("bang.wav", "static")
+--src1:play()
+
 width, height = love.graphics.getDimensions()
 font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 75)
 font2 = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
@@ -467,23 +471,11 @@ function love.draw()
         end
         love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
         if win == 1 then
-            love.graphics.setFont(font4)
-            if fadeIn3 < 225 then
-                fadeIn3 = fadeIn3 + 5
-            end
             love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
             love.graphics.printf("O wins!", width/2-width/2, height/2-20, width, 'center')
-            play = 0
-            restartButton:draw()
         elseif win == 2 then
-            love.graphics.setFont(font4)
-            if fadeIn3 < 225 then
-                fadeIn3 = fadeIn3 + 5
-            end
             love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
             love.graphics.printf("X wins!", width/2-width/2, height/2-20, width, 'center')
-            play = 0
-            restartButton:draw()
         elseif win == 3 and clicks == 9 then
             love.graphics.printf("Draw!", width/2-width/2, height/2-20, width, 'center')
         end
