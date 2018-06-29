@@ -2,6 +2,7 @@ width, height = love.graphics.getDimensions()
 font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 75)
 font2 = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
 font3 = love.graphics.newFont("DejaVuSans-Bold.ttf", 50)
+font4 = love.graphics.newFont("DejaVuSans-Bold.ttf", 100)
 
 local play = 0
 local turn = 1
@@ -16,6 +17,7 @@ local titleScreen = 1
 local titleY = {-50, 0}
 local fadeIn = 0
 local fadeIn2 = 0
+local fadeIn3 = 0
 local buttonSpeed = {5, 10}
 
 local grid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
@@ -239,8 +241,7 @@ function playB(self)
 end
 
 function restartB(self)
-    --textSize(40);
-
+    love.graphics.setFont(font2)
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineWidth(5)
 
@@ -249,7 +250,6 @@ function restartB(self)
     love.graphics.push()
     love.graphics.translate(self.x, self.y)
     love.graphics.rectangle("line", -self.w/2, -self.h/2, self.w, self.h, 2.7, 2.7)
-    love.graphics.setColor(colors[1])
     love.graphics.printf("RESTART", -width/2+125-self.w/2, -2.5-self.h/2, width, 'center')
     love.graphics.pop()
 end
@@ -267,7 +267,7 @@ playButton = Button:new(width/2, 400, 150, 50, playB,
         titleScreen = 0
     end
 )
-restartButton = Button:new(width/2, height+100, 250, 50, restartB,
+restartButton = Button:new(width/2, height+50, 250, 50, restartB,
     function()
         play = 0
         clicks = 0
@@ -276,12 +276,13 @@ restartButton = Button:new(width/2, height+100, 250, 50, restartB,
         titleY = {-50, 0}
         fadeIn = 0
         fadeIn2 = 0
+        fadeIn3 = 0
         buttonSpeed = {5, 10}
         grid = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
         circles = {}
         crosses = {}
         themeButton.x = width+70
-        restartButton.y = height+100
+        restartButton.y = height+50
 
         for i = 0, 2, 1 do
             table.insert(circles, Circle:new(i, 0))
@@ -358,8 +359,6 @@ function love.draw()
     -- Buttons
     themeButton:draw()
 
-    restartButton:draw()
-
     -- Title animation
     titleY[1] = titleY[1] + titleY[2]
     if titleY[1] < 8 then
@@ -382,7 +381,7 @@ function love.draw()
         buttonSpeed[1] = buttonSpeed[1] - 0.1
     end
     if win == 1 and buttonSpeed[2] > 0 or win == 2 and buttonSpeed[2] > 0 or win == 3 and buttonSpeed[2] > 0 then
-        buttonSpeed[2] = buttonSpeed[2] - 0.2
+        buttonSpeed[2] = buttonSpeed[2] - 0.196
     end
     if buttonSpeed[1] > -0.5 and buttonSpeed[1] < 0.5 then
         buttonSpeed[1] = 0
@@ -390,7 +389,7 @@ function love.draw()
     end
     if buttonSpeed[2] > -0.5 and buttonSpeed[2] < 0.5 then
         buttonSpeed[2] = 0
-        restartButton.y = 447
+        restartButton.y = height/2+150
     end
 
     -- Fade-in animation
@@ -422,6 +421,10 @@ function love.draw()
         end
     end
 
+    -- Win fade
+    love.graphics.setColor(colors[0][1], colors[0][2], colors[0][3], fadeIn3)
+    love.graphics.rectangle("fill", width/2-155, 300-55, 310, 310)
+
     -- Win check
     -- Horizontal
     for i = 1, 3, 1 do
@@ -451,6 +454,43 @@ function love.draw()
     elseif grid[3][1] == 2 and grid[2][2] == 2 and grid[1][3] == 2 then
         win = 2
     end
+
+    -- Win scenes
+    if win == 1 then
+        love.graphics.setFont(font4)
+        if fadeIn3 < 225 then
+            fadeIn3 = fadeIn3 + 5
+        end
+        love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
+        love.graphics.printf("O wins!", width/2-width/2, height/2-20, width, 'center')
+        play = 0
+        restartButton:draw()
+    elseif win == 2 then
+        love.graphics.setFont(font4)
+        if fadeIn3 < 225 then
+            fadeIn3 = fadeIn3 + 5
+        end
+        love.graphics.setColor(colors[1][1], colors[1][2], colors[1][3])
+        love.graphics.printf("O wins!", width/2-width/2, height/2-20, width, 'center')
+        play = 0
+        restartButton:draw()
+    end
+
+    -- if (win === 0 && clicks === 9) {
+    --     win = 3;
+    -- }
+    --
+    -- if (win === 3 && clicks === 9) {
+    --     textAlign(CENTER, CENTER);
+    --     textSize(100);
+    --     if (fadeIn2 > 25) {
+    --         fadeIn2 -= 5;
+    --     }
+    --     text("Draw!", 300, 300);
+    --     winSound = 0;
+    --     play = 0;
+    --     restartButton.draw();
+    -- }
 end
 
 function love.mousepressed(x, y, button, istouch)
