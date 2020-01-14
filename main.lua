@@ -129,7 +129,7 @@ end
 
 function Circle:draw()
     if self.anim < math.rad(270) then
-        self.anim = self.anim + math.rad(5)
+        self.anim = self.anim + math.rad(15)
     end
 
     love.graphics.setLineStyle("smooth")
@@ -161,10 +161,10 @@ end
 
 function Cross:draw()
     if self.l1 < 35 then
-        self.l1 = self.l1 + 1.25
+        self.l1 = self.l1 + 3.5
     end
     if self.l1 == 35 and self.l2 < 35 then
-        self.l2 = self.l2 + 1.25
+        self.l2 = self.l2 + 3.5
     end
 
     love.graphics.setLineStyle("smooth")
