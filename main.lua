@@ -1,7 +1,3 @@
--- Add sound effects
---src1 = love.audio.newSource("bang.wav", "static")
---src1:play()
-
 width, height = love.graphics.getDimensions()
 font = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 75)
 font2 = love.graphics.newFont("DejaVuSansMono-Bold.ttf", 50)
